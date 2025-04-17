@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Rental</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f9;
+      color: #333;
+    }
+    
+    .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.filter-btn, .back-btn {
+  background-color: #f3f4f6;
+  color: #111827;
+  padding: 10px 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover, .back-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.filter-panel {
+  width: 260px;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 100;
+  display:none;
+}
+.filter-panel.active{
+  display: block;
+}
+.filter-panel h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #111827;
+}
+
+.filter-panel label {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.filter-panel input[type="text"],
+.filter-panel select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 18px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.filter-panel input:focus,
+.filter-panel select:focus {
+  border-color: #3b82f6;
+}
+
+.filter-panel button {
+  width: 100%;
+  padding: 10px;
+  background-color: #111827;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-panel button:hover {
+  background-color: #1f2937;
+}
+
+
+    #carList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      padding: 30px;
+    }
+
+    .car-item {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .car-item:hover {
+      transform: scale(1.02);
+    }
+
+    .car-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .filter-input {
+  height: 12px;
+  border-radius: 4px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+}
+
+
+    .car-item img:hover {
+      transform: scale(1.05);
+    }
+
+    .car-item button {
+      background-color: #1E293B;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .car-item button:hover {
+      background-color: #334155;
+    }
+    .hidden {
+  display: none;
+}
+    
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="filter-btn" id="filterBtn">☰ Filter</button>
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700;">🚗 Let's Ride</h1>
+    <button class="back-btn" onclick="location.href='rent.html'">⬅ Back</button>
+  </div>
+
+  <div id="filterPanel" class="filter-panel hidden">
+    <h3>Filter Cars</h3>
+
+    <label for="brand">Brand:</label>
+    <input type="text" id="brandInput" class="filter-input" placeholder="Enter brand name">
+
+    <label for="price">Max Price ($):</label>
+    <input type="number" id="price" min="0" step="500">
+
+    <label for="sortOrder">Range:</label>
+    <select id="sortOrder">
+      <option value="">None</option>
+      <option value="lowToHigh">Low to High</option>
+      <option value="highToLow">High to Low</option>
+    </select>
+  
+
+    <label for="color">Color:</label>
+    <select id="color">
+      <option value="">All</option>
+      <option value="Black">Black</option>
+      <option value="White">White</option>
+      <option value="Blue">Blue</option>
+      <option value="Grey">Grey</option>
+    </select>
+
+    <label for="fuelType">Fuel Type:</label>
+    <select id="fuelType">
+      <option value="">All</option>
+      <option value="Petrol">Petrol</option>
+      <option value="Diesel">Diesel</option>
+      <option value="Gas">Gas</option>
+    </select>
+
+    <button id="saveFilter">Save</button>
+  </div>
+
+  <div id="carList">
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const filterBtn = document.getElementById("filterBtn");
+    const filterPanel = document.getElementById("filterPanel");
+    const saveFilter = document.getElementById("saveFilter");
+
+    filterBtn.addEventListener("click", function () {
+      filterPanel.classList.toggle("active");
+    });
+
+    saveFilter.addEventListener("click", function () {
+      applyFilters();
+      filterPanel.classList.remove("active");
+    });
+  });
+
+  let allCars = [];
+
+  function fetchCars() {
+    fetch('http://localhost:3000/api/cars')
+      .then(response => response.json())
+      .then(data => {
+        allCars = data;
+        displayCars(data);
+      });
+  }
+
+  function redirectToBooking(carId) {
+  console.log(`🔁 Redirecting to: /public/bookcar.html?carId=${carId}`);
+  window.location.href = `./public/bookcar.html?carId=${carId}`;
+
+
+}
+
+
+  function displayCars(cars) {
+    const carListDiv = document.getElementById('carList');
+    carListDiv.innerHTML = '';
+
+    cars.sort((a, b) => a.model.localeCompare(b.model));
+
+    cars.forEach(car => {
+      const carDiv = document.createElement('div');
+      carDiv.className = 'car-item';
+      carDiv.innerHTML = `
+        <h3>${car.model}</h3>
+        <p>Category: ${car.category}</p>
+        <p class="car-price">Price per day: ₹${car.price_per_day}</p>
+        <p>Fuel Type: ${car.fuel_type}</p>
+        <p>Color: ${car.color}</p>
+        <p>Availability: ${car.availability}</p>
+        <img src="${car.image_url}" alt="${car.model}" class="car-image" data-model="${car.model}">
+        <button onclick="redirectToBooking(${car.id})">Book Now</button>
+      `;
+      carListDiv.appendChild(carDiv);
+    });
+
+    document.querySelectorAll(".car-image").forEach(img => {
+      img.addEventListener("click", function () {
+        const model = this.getAttribute("data-model");
+        window.location.href = `carDetails.html?model=${encodeURIComponent(model)}`;
+      });
+    });
+  }
+
+  function applyFilters() {
+  const maxPrice = parseFloat(document.getElementById('price').value);
+  const selectedColor = document.getElementById('color').value;
+  const selectedFuelType = document.getElementById('fuelType').value;
+  const sortOrder = document.getElementById('sortOrder').value;
+  const brandInput = document.getElementById('brandInput').value.trim().toLowerCase();
+
+  let filteredCars = allCars.filter(car => {
+    const brandMatches = brandInput === '' || car.model.toLowerCase().includes(brandInput);
+    const priceMatches = isNaN(maxPrice) || car.price_per_day <= maxPrice;
+    const colorMatches = !selectedColor || car.color === selectedColor;
+    const fuelMatches = !selectedFuelType || car.fuel_type === selectedFuelType;
+
+    return brandMatches && priceMatches && colorMatches && fuelMatches;
+  });
+
+  if (sortOrder === "lowToHigh") {
+    filteredCars.sort((a, b) => a.price_per_day - b.price_per_day);
+  } else if (sortOrder === "highToLow") {
+    filteredCars.sort((a, b) => b.price_per_day - a.price_per_day);
+  }
+
+  displayCars(filteredCars);
+}
+
+  window.onload = fetchCars;
+  const filterBtn = document.getElementById('filterBtn');
+  const filterPanel = document.getElementById('filterPanel');
+
+  filterBtn.addEventListener('click', () => {
+    filterPanel.classList.toggle('hidden');
+  });
+  
+  </script>
+</body>
+</html>

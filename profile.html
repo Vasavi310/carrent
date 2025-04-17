@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        /* General Styling */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container { 
+            width: 90%; 
+            max-width: 1200px; 
+            margin: auto; 
+            padding: 20px; 
+        }
+
+        h2 { 
+            text-align: center; 
+            font-size: 32px; 
+            font-weight: bold; 
+            color: #2C3E50; 
+            margin-bottom: 30px;
+        }
+
+        /* Grid Layout for Bookings */
+        .bookings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Booking Card */
+        .booking-card {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .booking-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: black;
+            text-transform: uppercase;
+        }
+
+        .booking-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .booking-card img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .booking-card p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .no-bookings {
+            text-align: center;
+            font-size: 18px;
+            color: red;
+            font-weight: bold;
+        }
+/* Cancel Button Styling */
+.booking-card button {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.booking-card button:hover {
+    background-color: #c0392b; /* Darker red */
+    transform: scale(1.05);
+}
+
+/* Disabled (Already Cancelled) Button */
+.booking-card button:disabled {
+    background-color: #bdc3c7; /* Light gray */
+    color: #555;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#bookingsContainer {
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  color: #374151;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#bookingsContainer a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+#bookingsContainer a:hover {
+  text-decoration: underline;
+}
+
+        
+
+        @media (max-width: 768px) {
+            .bookings-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .booking-card {
+                padding: 15px;
+            }
+        }
+   
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>My Bookings</h2>
+        <div id="bookingsContainer" class="bookings-grid"><a href="login.html">Login First</a></div>
+    </div>
+
+    <script>
+        async function fetchBookings() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found, redirecting to login.");
+          return;
+        }
+
+        const response = await fetch("http://localhost:3000/api/user-bookings", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        const data = await response.json();
+        if (!data.success) throw new Error("Error retrieving details");
+
+        displayBookings(data.bookings);
+      } catch (error) {
+        console.error("Error fetching user bookings:", error);
+        document.getElementById("bookingsContainer").innerHTML = "<p class='no-bookings'>Error retrieving details.</p>";
+      }
+    }
+
+    function displayBookings(bookings) {
+      const container = document.getElementById("bookingsContainer");
+      container.innerHTML = "";
+
+      if (bookings.length === 0) {
+        container.innerHTML = "<p class='no-bookings'>No bookings found.</p>";
+        return;
+      }
+
+      bookings.sort((a, b) => new Date(b.pickup_date) - new Date(a.pickup_date));
+
+
+      const today = new Date();
+
+      bookings.forEach(booking => {
+  const pickupDate = new Date(booking.pickup_date);
+  const returnDate = new Date(booking.return_date);
+  const today = new Date();
+
+  // Normalize times for accurate comparison
+  pickupDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const isCancelable = pickupDate > today && booking.status !== 'cancelled';
+
+  const card = document.createElement("div");
+  card.classList.add("booking-card");
+  card.innerHTML = `
+    <h3>${booking.model}</h3>
+    <img src="http://localhost:3000${booking.image_url}" alt="${booking.model}">
+    <p><strong>Category:</strong> ${booking.category}</p>
+    <p><strong>Price/Day:</strong> $${booking.price_per_day}</p>
+    <p><strong>Color:</strong> ${booking.color}</p>
+    <p><strong>Fuel Type:</strong> ${booking.fuel_type}</p>
+    <p><strong>Pickup Date:</strong> ${pickupDate.toLocaleDateString()}</p>
+    <p><strong>Return Date:</strong> ${returnDate.toLocaleDateString()}</p>
+    <p class="status"><strong>Status:</strong> ${booking.status}</p>
+  `;
+
+  if (isCancelable) {
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Cancel";
+    cancelBtn.addEventListener("click", async () => {
+      const confirmCancel = confirm("Are you sure you want to cancel this booking?");
+      if (!confirmCancel) return;
+
+      try {
+        const res = await fetch("http://localhost:3000/cancel-booking", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          },
+          body: JSON.stringify({ bookingId: booking.id })
+        });
+
+        const result = await res.json();
+        alert(result.message);
+
+        if (result.message === "Booking cancelled successfully") {
+          const statusElement = card.querySelector(".status");
+          statusElement.innerHTML = "<strong>Status:</strong> cancelled";
+          cancelBtn.disabled = true;
+          cancelBtn.textContent = "Cancelled";
+        }
+      } catch (err) {
+        console.error("Error canceling booking:", err);
+        alert("Failed to cancel booking.");
+      }
+    });
+
+    card.appendChild(cancelBtn);
+  }
+
+  container.appendChild(card);
+});
+    }
+    document.addEventListener("DOMContentLoaded", fetchBookings);
+    </script>
+</body>
+</html>

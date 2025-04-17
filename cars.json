@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "model": "Toyota Corolla",
+    "category": "Sedan",
+    "price_per_day": 50.0,
+    "availability": 5
+  },
+  {
+    "id": 2,
+    "model": "Ford Mustang",
+    "category": "Sports",
+    "price_per_day": 120.0,
+    "availability": 2
+  }
+]

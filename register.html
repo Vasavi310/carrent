@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #1c1c1c, #333);
+      color: #fff;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      width: 380px;
+      text-align: center;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: 0.3s;
+      background: #f9f9f9;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+      box-shadow: 0 4px 10px rgba(0, 91, 187, 0.5);
+    }
+
+    @media (max-width: 400px) {
+      form {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form id="registerForm">
+    <h2>Register</h2>
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      const data = await response.json();
+      alert(data.message);
+      if (response.ok) window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <style>
+             body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, rgb(129, 121, 121) 0%, black 100%);
+            font-family: 'Arial', sans-serif;
+        }
+        p{
+            max-width: 800px;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgb(129, 121, 121) 0%, black 100%);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            color: white;
+            line-height: 1.6;
+            font-size: 1.1em;
+            font-weight: 300;
+            margin: 0;
+        }
+        .btn{
+            background: linear-gradient(to bottom, #f7f7f7, #e0e0e0);
+            border: 1px solid #d1d1d1;
+            color: #333; 
+            padding: 15px 30px; 
+            font-size: 16px;
+            border-radius: 5px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position:relative;
+            top:170px;
+        }
+        
+        .btn:active {
+            background-color: black;
+            color:black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+            transform:translateX(4px);
+        }
+        </style>
+    </head>
+    <body>
+        <p>We are dedicated to providing an exceptional car rental experience tailored to your needs. Founded in 2022, our mission is to offer a diverse fleet of high-quality vehicles, from sleek sedans and sporty coupes to spacious SUVs and reliable trucks. Whether you’re planning a weekend getaway, a business trip, or need a temporary vehicle for any reason, we have the perfect option for you. Our user-friendly booking system, transparent pricing, and attentive customer service ensure that renting a car is smooth and hassle-free. Your journey is our priority, and we strive to make every drive a memorable one.
+        </p>
+        <div><button class="btn" onclick="returnback()">Back-></button></div>
+        <script>
+            function returnback()
+            {
+                window.location.href="rent.html";
+            }
+        </script>
+    </body>
+</html>

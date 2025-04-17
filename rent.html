@@ -1,0 +1,298 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <style>
+            .container
+            {
+                background-image:url('images/car.avif');
+                background-size:cover;
+                height:100vh;
+                opacity:0.5;
+            }
+            nav
+            {
+                display:flex;
+                position:relative;
+                left:1140px;
+                bottom:0px;
+            }
+            nav ul{
+                list-style-type:none;
+                flex-direction:row;
+                padding:10px;
+                display:flex;
+            }
+            nav ul li{
+                color:white;
+                margin:0 10px;
+            }
+            nav ul li a{
+                text-decoration:none;
+                color:white;
+                text-align:right;
+            }
+            header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            }
+            .hleft {
+                font-size: 2rem;
+    font-weight: bold;
+    color: black;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1.5px;
+    text-align: center;
+    animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+   }
+    img{
+        position:relative;
+        left:40px;
+        top:15px;
+        height:60px;
+        width:60px;
+    }
+            .hbs{
+                display:inline-block;
+                float:right;
+
+            }
+            .hbs button{
+                 background-color:grey;
+                 color:white;
+                 border:1px grey;
+                 border-radius:5px;
+                 padding:10px;
+                 display: inline-block;
+                 margin:5px;
+                 padding:10px 20px;
+            }
+            .book1{
+                 display:flex;
+                 gap:80px;
+            }
+            .b{
+                position:relative;
+                left:780px;
+                top:200px;
+                color:white;
+            }
+
+
+.b h1 {
+    font-size: 2.5em;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    animation: fadeIn 2.5s ease-out;
+}
+
+
+.b h2 {
+    font-size: 1.5em;
+    position:relative;
+    left:20px;
+    margin: 10px 0 0;
+    font-family: 'Arial', sans-serif;
+    font-weight: lighter;
+    animation: fadeIn 2.5s ease-out;
+}
+#logoutBtn
+{
+    background-color:grey;
+                 color:white;
+                 border:1px grey;
+                 border-radius:5px;
+                 padding:10px;
+                 display: inline-block;
+                 margin:5px;
+                 padding:10px 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(20);
+    }
+}
+            .hbs button:hover{
+                background-color:black;
+            }
+            
+            .three-d-button, .threed1 {
+    border: 1px solid #d1d1d1;
+    color: black; 
+    padding: 15px 30px; 
+    font-size: 16px;
+    border-radius: 5px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    top: 270px;
+}
+
+.three-d-button {
+    left: 870px;
+}
+
+.threed1 {
+    left: 880px;
+}
+
+.three-d-button:hover, .threed1:hover {
+    background-color: black;
+    color: white; 
+}
+
+.three-d-button:active, .threed1:active {
+    background-color: black;
+    color: white; 
+    transform: translateX(4px);
+}      
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1; }
+}
+
+.light-ring {
+    position: absolute;
+    top: 71.5%;  
+    left: 29.6%;  
+    width: 70px; /* Adjust width to fit the headlight */
+    height: 53px; /* Adjust height */
+    background: whitesmoke;
+    box-shadow: 0 0 40px 20px rgba(238, 238, 234, 0.8);
+    animation: blink 1s infinite alternate;
+    
+    /* Adjusting exact border-radius for the shape */
+    border-radius: 105px 105px 0px 0px; /* (Top-left, Top-right, Bottom-right, Bottom-left) */
+    
+    transform: rotate(-192deg); /* Adjust rotation to fit the headlight */
+}
+
+/* For second headlight */
+.light-ring.right {
+    left: 50%;
+    transform: rotate(-192deg); /* Apply same tilt */
+}
+
+
+@keyframes flicker {
+    0% { opacity: 1; box-shadow: 0 0 15px 6px rgba(221, 221, 217, 0.7); }
+    50% { opacity: 0.5; box-shadow: 0 0 20px 10px rgba(238, 238, 234, 0.5); }
+    100% { opacity: 1; box-shadow: 0 0 15px 6px rgba(238, 238, 234, 0.7); }
+}
+
+.headlight {
+    position: absolute;
+    top: 74%;  
+    left: 48%;  
+    width: 95px; /* Adjust width to fit the headlight */
+    height: 53px; /* Adjust height */
+    background: whitesmoke;
+    box-shadow: 0 0 70px 40px rgba(238, 238, 234, 0.8);
+    animation: blink 1s infinite alternate;
+    
+    /* Adjusting exact border-radius for the shape */
+    border-radius: 105px 105px 0px 0px; /* (Top-left, Top-right, Bottom-right, Bottom-left) */
+    
+    transform: rotate(-90deg); /* Adjust rotation to fit the headlight */
+}
+
+/* For second headlight */
+.headlight.right {
+    left: 21.8%;
+    transform: rotate(-192deg); /* Apply same tilt */
+}
+
+
+        </style>
+      <link rel="stylesheet" href="styler.css">
+    </head>
+    <body>
+    <header>
+        <img src="images/carlogo.png">
+        <h1 class="hleft">Let’s hit the road!</h1>
+        <div class="hbs" id="authButtons">
+            <button id="loginBtn" onclick="location.href='login.html'">Login</button>
+            <button id="registerBtn" onclick="location.href='register.html'">Register</button>
+        </div>
+        <button id="logoutBtn" style="display: none; background: black;color:white">Logout</button>        
+
+    </header>
+    <div class="container">
+        <nav>
+            <ul id="navList">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="Aboutus.html">About Us</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+                <li id="historyItem"><a href="profile.html">History</a></li>
+            </ul>
+        </nav>
+        
+        <div class="b">
+            <h1>Accelerate into Excellence</h1><br>
+            <h2>Explore Our Range of Exceptional Vehicles!</h2>
+        </div>
+        <div class="book1">
+        <button class="three-d-button" onclick="location.href='bookt.html'">Get this car</button>
+        <button class="threed1" onclick="location.href='index.html'">Book car</button>
+        </div>
+    </div>
+    <div class="headlights"></div>
+    <div class="headlight right"></div>
+    <div class="light-ring"></div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const token = localStorage.getItem("token");
+        const loginBtn = document.getElementById("loginBtn");
+        const registerBtn = document.getElementById("registerBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        if (token) {
+            loginBtn.style.display = "none"; 
+            registerBtn.style.display = "none";
+            logoutBtn.style.display = "block"; 
+        }
+
+        logoutBtn.addEventListener("click", function () {
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        });
+    });
+
+    function viewBookingHistory() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Please log in first.");
+            window.location.href = "login.html";
+            return;
+        }
+        window.location.href = "profile.html";
+    }
+</script>
+<script src="auth.js"></script>
+    </body>
+</html>
